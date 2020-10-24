@@ -44,7 +44,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if User.query.filter(User.email.ilike(field.data)).first():
             raise ValidationError('Email already registered. (Did you mean to '
                                   '<a href="{}">log in</a> instead?)'.format(
                                     url_for('account.login')))
@@ -115,5 +115,5 @@ class ChangeEmailForm(FlaskForm):
     submit = SubmitField('Update email')
 
     def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if User.query.filter(User.email.ilike(field.data)).first():
             raise ValidationError('Email already registered.')
